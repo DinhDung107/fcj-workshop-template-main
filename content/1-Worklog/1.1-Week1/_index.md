@@ -1,57 +1,31 @@
----
+﻿---
 title: "Week 1 Worklog"
 date: 2024-01-01
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Main Objectives of Week 1:
 
-### Week 1 Objectives:
+* Gain an overview of the First Cloud Journey Bootcamp program and learn how to follow the learning playlist.
+* Understand the foundational concepts of cloud computing, benefits of AWS, and the global infrastructure model.
+* Get familiar with reading workshops, drawing AWS architecture diagrams using draw.io, and mapping out the study roadmap.
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+### Detailed Implementation Plan:
+| Day | Task Description | Start Date | End Date | Reference |
+| --- | --- | :---: | :---: | --- |
+| 1 | Watch the 2024 Kick-off session, record course objectives, modules, and practice requirements, create an account and perform AWS Free Tier tasks. | 17/04/2026 | 17/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 2 | Practice drawing AWS architecture on draw.io, get familiar with service icons and diagram presentation rules. | 18/04/2026 | 18/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 3 | Learn how to read AWS workshops, identify lab objectives, preparation steps, and completion criteria. | 19/04/2026 | 19/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 4 | Study Module 01-01 on Cloud Computing, distinguish between traditional and cloud models. | 20/04/2026 | 20/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 5 | Analyze AWS distinct advantages: service scale, flexibility, security, and pay-as-you-go model. | 21/04/2026 | 21/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 6 | Learn about AWS global infrastructure including Regions, Availability Zones, and Edge Locations. | 22/04/2026 | 22/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 7 | Synthesize knowledge from the first week, standardize notes, and list key AWS terms to remember. | 23/04/2026 | 23/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Assessment of Week 1 Results:
 
-
-### Week 1 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Understood the bootcamp objectives and how to self-study using videos combined with workshops.
+* Knew how to read AWS architecture diagrams and present basic service flows on draw.io.
+* Grasped the foundations of Cloud Computing, benefits of AWS, and global infrastructure design.
+* Developed initial notes to serve as a foundation for next week's IAM, Budget, and VPC labs.

@@ -1,59 +1,31 @@
----
-title: "Worklog Tuần 1"
+﻿---
+title: "Nhật ký Tuần 1"
 date: 2024-01-01
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Mục tiêu chính của Tuần 1:
 
-### Mục tiêu tuần 1:
+* Nắm tổng quan chương trình First Cloud Journey Bootcamp và cách theo dõi playlist học tập.
+* Hiểu các khái niệm nền tảng về điện toán đám mây, lợi ích của AWS và mô hình hạ tầng toàn cầu.
+* Làm quen với cách đọc workshop, vẽ sơ đồ kiến trúc AWS bằng draw.io và ghi chú lộ trình học.
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kế hoạch công việc chi tiết:
+| Ngày | Nội dung thực hiện | Bắt đầu | Kết thúc | Nguồn tham khảo |
+| --- | --- | :---: | :---: | --- |
+| 1 | Xem buổi Kick off 2024, ghi lại mục tiêu khóa học, module và yêu cầu thực hành, tạo tài khoản và làm nhiệm vụ AWS Free Tier. | 17/04/2026 | 17/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 2 | Thực hành vẽ kiến trúc AWS trên draw.io, làm quen biểu tượng dịch vụ và quy tắc trình bày sơ đồ. | 18/04/2026 | 18/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 3 | Học cách đọc workshop AWS, xác định mục tiêu lab, bước chuẩn bị và tiêu chí hoàn thành. | 19/04/2026 | 19/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 4 | Học Module 01-01 về Cloud Computing, phân biệt mô hình truyền thống và mô hình đám mây. | 20/04/2026 | 20/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 5 | Phân tích điểm khác biệt của AWS: quy mô dịch vụ, tính linh hoạt, bảo mật và mô hình trả theo mức dùng. | 21/04/2026 | 21/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 6 | Tìm hiểu hạ tầng toàn cầu AWS gồm Region, Availability Zone và Edge Location. | 22/04/2026 | 22/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 7 | Tổng hợp kiến thức tuần đầu, chuẩn hóa ghi chú và lập danh sách thuật ngữ AWS cần nhớ. | 23/04/2026 | 23/04/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Đánh giá kết quả Tuần 1:
 
-
-### Kết quả đạt được tuần 1:
-
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Hiểu được mục tiêu của bootcamp và cách tự học theo video kết hợp workshop.
+* Biết cách đọc sơ đồ kiến trúc AWS và trình bày luồng dịch vụ cơ bản trên draw.io.
+* Nắm nền tảng về Cloud Computing, lợi ích của AWS và cấu trúc hạ tầng toàn cầu.
+* Có bộ ghi chú ban đầu làm nền cho các lab IAM, Budget và VPC ở tuần sau.

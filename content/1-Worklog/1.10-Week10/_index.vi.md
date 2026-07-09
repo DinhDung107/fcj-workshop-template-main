@@ -1,59 +1,31 @@
----
-title: "Worklog Tuần 10"
+﻿---
+title: "Nhật ký Tuần 10"
 date: 2024-01-01
-weight: 2
+weight: 10
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Mục tiêu chính của Tuần 10:
 
-### Mục tiêu tuần 10:
+* Thiết kế kiến trúc ứng dụng cloud theo hướng dễ mở rộng và dễ vận hành.
+* Chuyển sơ đồ tổng quan thành các thành phần triển khai: frontend, backend, dữ liệu và bảo mật.
+* Lập kế hoạch tích hợp dịch vụ AWS cho đồ án cuối khóa.
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kế hoạch công việc chi tiết:
+| Ngày | Nội dung thực hiện | Bắt đầu | Kết thúc | Nguồn tham khảo |
+| --- | --- | :---: | :---: | --- |
+| 1 | Chốt phạm vi MVP của đồ án, xác định chức năng chính và dữ liệu cần lưu trữ. | 19/06/2026 | 19/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 2 | Thiết kế lớp frontend, lựa chọn cách phát hành qua S3/CloudFront hoặc hosting tương đương. | 20/06/2026 | 20/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 3 | Thiết kế lớp backend API, xác định endpoint, payload và quyền truy cập tối thiểu. | 21/06/2026 | 21/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 4 | Thiết kế lớp dữ liệu, xác định bảng, khóa chính, chỉ mục và luồng đọc/ghi. | 22/06/2026 | 22/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 5 | Xây dựng sơ đồ bảo mật IAM, phân quyền theo vai trò và nguyên tắc least privilege. | 23/06/2026 | 23/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 6 | Lập kế hoạch triển khai từng bước, chia task theo frontend, backend, dữ liệu và hạ tầng. | 24/06/2026 | 24/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
+| 7 | Review thiết kế với tiêu chí chi phí, bảo mật, khả năng mở rộng và khả năng demo. | 25/06/2026 | 25/06/2026 | [FCAJ Playlist](https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i) |
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Đánh giá kết quả Tuần 10:
 
-
-### Kết quả đạt được tuần 10:
-
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Phạm vi đồ án được thu gọn thành MVP có thể triển khai và kiểm thử.
+* Kiến trúc đã phân tách rõ frontend, backend, dữ liệu, bảo mật và phân phối nội dung.
+* Có kế hoạch triển khai theo từng lớp, giảm rủi ro khi tích hợp cuối kỳ.
+* Các quyết định thiết kế đều gắn với bài học từ playlist và lab đã thực hành.

@@ -9,118 +9,54 @@ pre: " <b> 3.1. </b> "
 ⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
 {{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+# Sử dụng định tuyến dựa trên độ trễ với Amazon CloudFront cho kiến trúc đa vùng hoạt động song song (Multi-Region Active-Active)
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
-
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Triển khai kiến trúc ứng dụng đa vùng hoạt động song song (Multi-Region Active-Active) trên AWS giúp mang lại tính sẵn sàng cao, khả năng khôi phục sau thảm họa và độ trễ thấp cho người dùng toàn cầu. Trong kiến trúc này, cơ chế định tuyến dựa trên độ trễ (latency-based routing) của Amazon Route 53 sẽ kết hợp với Amazon CloudFront để điều hướng yêu cầu đến nguồn (origin) ứng dụng gần nhất và đang hoạt động ổn định.
 
 ---
 
-## Hướng dẫn kiến trúc
+## Tổng quan về mô hình kiến trúc
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+Một mô hình phổ biến cho các ứng dụng đa vùng hoạt động song song là sử dụng Amazon CloudFront làm CDN toàn cầu và bộ tăng tốc API, kết hợp với Amazon Route 53 để quản lý định tuyến ở cấp độ DNS đến các nguồn tài nguyên vùng dựa trên độ trễ và kết quả kiểm tra sức khỏe (health checks).
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
-
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+- **Điểm truy cập toàn cầu (CloudFront):** Một phân phối CloudFront duy nhất hoạt động như điểm truy cập cho cả yêu cầu tĩnh và động. Người dùng kết nối đến vị trí biên (Edge location) của CloudFront gần nhất.
+- **Định tuyến nguồn động (Route 53):** Khi CloudFront chuyển tiếp các yêu cầu động (ví dụ: API) đến nguồn (origin), Route 53 sẽ phân giải tên miền tùy chỉnh của origin thành endpoint của vùng gần nhất (chẳng hạn như Application Load Balancer hoặc API Gateway) bằng cách sử dụng chính sách định tuyến dựa trên độ trễ (Latency-Based Routing).
+- **Cơ chế tự động chuyển vùng khi có sự cố (Failover):** Các health checks của Route 53 liên tục giám sát các endpoint của vùng. Nếu một vùng gặp sự cố, Route 53 sẽ tự động cập nhật bản ghi DNS để chuyển hướng lưu lượng sang vùng hoạt động bình thường có độ trễ thấp tiếp theo.
 
 ---
 
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
+## Các thành phần cốt lõi và các bước triển khai
 
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+### 1. Endpoint ứng dụng đa vùng
+Triển khai các tài nguyên ứng dụng giống nhau ở nhiều Vùng AWS (ví dụ: `us-east-1` và `eu-west-1`). Mỗi vùng cần có:
+- **Application Load Balancer (ALB) hoặc API Gateway** để tiếp nhận lưu lượng truy cập.
+- **Tài nguyên tính toán** (EC2, ECS, hoặc Lambda).
+- **Chứng chỉ SSL/TLS** được yêu cầu qua AWS Certificate Manager (ACM) tại từng vùng hoạt động để bảo mật kết nối.
 
----
+### 2. Cấu hình DNS với Amazon Route 53
+Thiết lập các bản ghi Route 53 để điều phối lưu lượng bằng chính sách định tuyến độ trễ (Latency Routing Policies):
+- Tạo một Hosted Zone public cho tên miền của bạn.
+- Tạo các bản ghi **A** hoặc **AAAA** dựa trên độ trễ cho tên miền phụ của origin (ví dụ: `api.example.com`).
+- Cấu hình health check cho từng endpoint vùng và liên kết chúng với các bản ghi DNS tương ứng.
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+### 3. Thiết lập phân phối Amazon CloudFront
+Cấu hình CDN toàn cầu để truyền tải dữ liệu:
+- Đặt Origin Domain của phân phối CloudFront thành tên miền phụ của origin (`api.example.com`).
+- Cấu hình các hành vi bộ nhớ đệm (caching behaviors) động, chuyển tiếp các header, query string và cookie cần thiết về origin.
+- Liên kết chứng chỉ tên miền tùy chỉnh (được quản lý trong ACM ở vùng `us-east-1`) với phân phối CloudFront.
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
-
----
-
-## The pub/sub hub
-
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
-
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+### 4. Lớp nhất quán dữ liệu (Data Consistency Layer)
+Kiến trúc active-active yêu cầu đồng bộ hóa dữ liệu giữa các vùng. Bạn có thể sử dụng:
+- **Amazon DynamoDB Global Tables** để đồng bộ hóa cơ sở dữ liệu NoSQL đa vùng tự động.
+- **Amazon Aurora Global Database** để đồng bộ dữ liệu quan hệ với độ trễ cực thấp.
 
 ---
 
-## Core microservice
+## Lợi ích và Đánh giá đánh đổi
 
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
-
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
-
----
-
-## Front door microservice
-
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
-
----
-
-## Staging ER7 microservice
-
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
-
----
-
-## Tính năng mới trong giải pháp
-
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+| Tiêu chí | Mô tả chi tiết |
+| :--- | :--- |
+| **Độ trễ tối thiểu** | Người dùng được phục vụ bởi Edge CloudFront gần nhất và origin AWS đang hoạt động có độ trễ thấp nhất. |
+| **Tính sẵn sàng cao** | Tự động chuyển hướng lưu lượng khỏi vùng bị lỗi chỉ trong vòng vài phút nhờ tích hợp Route 53 Health Checks. |
+| **Độ phức tạp vận hành** | Đòi hỏi việc thiết kế lớp dữ liệu đồng bộ đa vùng phức tạp và xử lý xung đột ghi dữ liệu (write conflicts). |
+| **Chi phí** | Việc triển khai đa vùng sẽ làm nhân đôi chi phí tài nguyên và phát sinh thêm phí chuyển dữ liệu giữa các vùng (cross-region data transfer). |

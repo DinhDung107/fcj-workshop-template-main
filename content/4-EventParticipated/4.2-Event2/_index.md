@@ -1,126 +1,108 @@
 ---
 title: "Event 2"
-date: 2024-01-01
-weight: 1
+date: 2026-05-30
+weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
 ---
-
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
+⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
 {{% /notice %}}
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+# Harvest Report: "FCAJ Community Meetup - 30/05/2026"
 
 ### Event Objectives
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+- Explore practical methods to level up AWS skills through gamified learning and local emulation tools.
+- Analyze the psychological factors driving procrastination and study how to combat it using the AWS Builder Philosophy.
+- Understand the core pillars of DevOps, focusing on the critical alignment of People, Process, and Technology.
+- Gain insights from real-world hackathon experiences, learning how to design and build AI-powered solutions in a fast-paced environment.
 
 ### Speakers
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+- **Huynh Thai Linh** - DevOps Engineer
+- **Pham Khac Uy** - 3rd Year Student, Vietnamese-German University (VGU)
+- **Nguyen Thi Quynh Nhu** - FCAJ Member
+- **Pham Quang Thai** - Game Backend & Cloud Engineer
+- **Tran Huu Nghia** - Software Engineer & Product Builder
+- **Tran Minh Quan** - DevOps Architect & Cloud Specialist
+- **Team The Ballers** (Huynh An Khuong, Mai Quoc Anh, Nguyen Tran Minh Quan) - Hackathon Competitors
 
-### Key Highlights
+### Event Highlights
 
-#### Identifying the drawbacks of legacy application architecture
+#### Gamified AWS Learning: Cloud Quest and Floci (Huynh Thai Linh)
+- Analyzed the high cost and complexity barriers that developers face when learning AWS.
+- Introduced **AWS Cloud Quest**: A 3D gamified learning environment that makes practicing AWS hands-on engaging.
+- Discussed **Floci**: An open-source local AWS emulator to test cloud architectures without incurring real costs.
+- Identified Floci's limitations, including a limited set of supported services, simulated mock outputs, and minor behavioral gaps compared to actual AWS environments.
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+#### Overcoming Procrastination with Builder Mindset (Pham Khac Uy)
+- Explored the psychological roots of procrastination, framing it not as laziness but as a symptom of underlying fears (fear of inadequacy, social judgment, and failure).
+- Mapped out "The Guilt Loop" which perpetuates delayed actions.
+- Introduced the **AWS Builder Philosophy**: *"Go Build. Fail fast. Learn faster. Keep shipping"* to bypass hesitation, initiate rapid action, and embrace mistakes as valuable data points.
 
-#### Transitioning to modern application architecture – Microservices
+#### Redefining Confidence in Technical Careers (Nguyen Thi Quynh Nhu)
+- Redefined confidence as the courage to act despite feeling nervous, rather than having a large ego or striving for perfection.
+- Discussed the psychological cost of self-doubt, contrasting Imposter Syndrome and the Dunning-Kruger effect.
+- Applied Simon Sinek's "Start with Why" concept and Brene Brown's insights on vulnerability to show how structured preparation builds genuine, lasting confidence.
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+#### Cloud Architecture in Modern Multiplayer Games (Pham Quang Thai)
+- Explored infrastructure challenges in real-time multiplayer games (reducing latency, state synchronization).
+- Compared Dedicated Game Servers vs Serverless architectures for game logic execution.
+- Auto-scaling server resources dynamically based on Concurrent Users (CCU) to optimize cloud hosting costs.
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+#### Modern Astrology Platform Powered by Tech (Tran Huu Nghia)
+- Introduced a product combining traditional birth chart mapping algorithms with modern software engineering.
+- Automated precise planet coordinates and planetary aspects calculation based on exact user birth locations and times.
+- Shared the builder experience of turning a niche concept into a live product serving the new generation.
 
-#### Domain-Driven Design (DDD)
+#### DevOps Iceberg: People Before Technology (Tran Minh Quan)
+- Used the Iceberg Metaphor to describe project failures: Surface issues like missed deadlines and bugs are caused by hidden communication gaps, operational silos, and manual process backlogs.
+- Emphasized the three pillars of DevOps: People, Process, and Technology. Concluded that the **People** pillar (trust, ownership, open communication) forms the massive foundation of the iceberg that cannot be automated away by tools.
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
-
-#### Event-Driven Architecture
-
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
-
-#### Compute Evolution
-
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
-
-#### Amazon Q Developer
-
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
+#### Fast-paced AI Development: SynthHunter (Team The Ballers)
+- Shared the team's experience building **SynthHunter**—an AI voice verification system designed to prevent voice clone fraud—during a 36-hour hackathon.
+- Explained the underlying technical stack:
+  * **XLS-R** to capture raw acoustic profiles (Speech Dynamics).
+  * **Whisper** to extract linguistic markers (Encoder Behavior).
+  * Custom pause analysis algorithms to capture natural speech rhythms.
+- Shared key lessons: Address real-world customer pain points, experiment relentlessly under tight deadlines, and make full use of pre-trained models.
 
 ### Key Takeaways
 
-#### Design Mindset
+#### Builder Mindset & Personal Growth
+- Re-oriented personal workflow to embrace rapid prototyping and iterative improvements ("fail fast") instead of stalling tasks in search of a perfect first draft.
+- Built confidence by focusing on thorough preparation and accepting vulnerability in the learning stage.
 
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
+#### Cloud & DevOps Collaboration
+- Understood that DevOps success is deeply dependent on transparent communication and trust across team boundaries, rather than just using modern automated pipelines.
+- Learned to use Floci to build lightweight mock local endpoints to test AWS resource scripts before deploying them to live test accounts.
 
-#### Technical Architecture
+#### Practical Generative AI Integration
+- Learned how to integrate specialized AI voice processing models (Whisper, XLS-R) into a secure, functional verification workflow to tackle real-world cybersecurity threats.
 
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
+### Work Application
 
-#### Modernization Strategy
-
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
-
-### Applying to Work
-
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
+- **Improve Team Dynamics:** Implement transparent DevOps communication patterns within local project workflows to eliminate collaboration bottlenecks.
+- **Implement Local Emulators:** Utilize local emulators (like Floci or LocalStack) during early testing phases to validate AWS resource interaction logic and minimize playground cloud bills.
+- **Accelerate Execution:** Apply the "Go Build" ethos to break down complex dashboard features into smaller, shipable components, reducing project hesitation.
 
 ### Event Experience
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+The meetup on May 30, 2026, provided an engaging blend of technical cloud architecture patterns and practical personal development guidelines:
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
+#### Multi-dimensional Learning Environment
+- The speakers bridged different levels of expertise—ranging from senior DevOps specialists explaining organizational trust, to VGU students sharing raw hackathon pressures.
 
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
+#### Highly Practical Case Studies
+- The sessions focused on practical demonstrations, from playing Cloud Quest to building the SynthHunter anti-fraud framework, keeping the audience highly engaged.
 
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
+#### Broadened Perspective
+- Realized that building premium systems depends not only on code quality but also on team communication dynamics and adopting a resilient builder mindset.
 
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
-
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
-
-#### Some event photos
-*Add your event photos here*  
-
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+#### Event Gallery
+<div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px;">
+  <img src="/images/event2_1.jpg" alt="Day 1 group presentation" style="width: 48%; max-width: 400px; object-fit: contain; border-radius: 8px;" />
+  <img src="/images/event2_2.jpg" alt="Confidence presentation slide" style="width: 48%; max-width: 400px; object-fit: contain; border-radius: 8px;" />
+</div>
+> In summary, the meetup was a highly inspiring event, providing key insights into Cloud/DevOps best practices and personal development frameworks to apply to upcoming software engineering tasks.

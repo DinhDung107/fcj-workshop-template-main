@@ -1,126 +1,134 @@
 ---
 title: "Event 1"
-date: 2024-01-01
+date: 2026-05-09
 weight: 1
 chapter: false
 pre: " <b> 4.1. </b> "
 ---
-
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
+⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
 {{% /notice %}}
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+# Harvest Report: "FCAJ Community Day - 09/05/2026"
 
 ### Event Objectives
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+- Share practical techniques for building sustainable study habits by leveraging how the brain actually works.
+- Introduce advanced Prompt Engineering practices and explain how optimized prompts significantly improve the output quality of Large Language Models (LLMs).
+- Discuss the role of junior developers in the AI era and emphasize the critical importance of strong foundational knowledge.
+- Present the BMAD Method — a structured, AI-driven software development framework that replaces unorganized "vibe coding."
 
 ### Speakers
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+- **Huynh Hoang Long** - FCAJ Member
+- **Nguyen Tuan Thinh** - DevOps/Cloud Engineer (FCAJ Representative Speaker)
+- **Nguyen Duy Khang** - Solutions Architect at Cloud Kinetics
+- **Thao Nguyen** - BMAD Method Expert
 
-### Key Highlights
+### Event Highlights
 
-#### Identifying the drawbacks of legacy application architecture
+#### Hacking Your Brain to Learn Like a Game Addict (Huynh Hoang Long)
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+Huynh Hoang Long opened with a relatable question: why can we scroll TikTok for hours effortlessly, yet struggle to study for just 10 minutes?
 
-#### Transitioning to modern application architecture – Microservices
+- **Root cause analysis:** The brain prioritizes low-energy activities with fast rewards and curiosity triggers — exactly what social media and online games have mastered.
+- **The Dopamine Mechanism:** Dopamine is not released when you receive a reward, but when you *expect* a reward is coming. This is why TikTok algorithms and slot machine mechanics keep users hooked so effectively.
+- **"Mystery Reward Box" technique:** Write random small rewards on separate pieces of paper, put them in a box, and draw one every 10 minutes of studying. The curiosity of not knowing the next reward triggers a dopamine loop that sustains motivation.
+- **Leveraging Loss Aversion:** Build a daily learning streak calendar similar to Duolingo's streak system or game daily check-ins. Once a streak gets long enough, the fear of breaking it becomes a powerful motivator.
+- **Task Decomposition:** Break large study goals into tiny daily chunks — one AWS service per day instead of cramming everything in one session. Like a beginning runner who breaks a 5km run into short segments.
+- **The 2-Minute Rule:** If something can be resolved in 2 minutes, do it immediately. Never let it pile up.
+- **XP System:** Design a personal XP (experience point) reward system where completing topics earns points that unlock real-world treats (a Starbucks drink, an activity, etc.).
+- **Share knowledge instead of scrolling:** Replace mindless scrolling with posting new things you learned — this also builds the habit of becoming a future speaker at events like FCAJ Community Day.
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+#### Automated Prompt Engineering & Proptimizer on AWS (Nguyen Tuan Thinh)
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+Nguyen Tuan Thinh presented entirely in English, explaining the art of communicating effectively with AI models.
 
-#### Domain-Driven Design (DDD)
+- **The "Generic Prompt" problem:** Vague prompts produce low-quality outputs, waste tokens, increase API costs, and push models into hallucination mode.
+- **7 Key Components of a Great Prompt:**
+  - **Role:** Define the persona the AI should adopt (e.g., "You are a senior career coach").
+  - **Instruction:** The specific action to perform.
+  - **Context:** Relevant background information.
+  - **Input Data:** The raw text or data to process.
+  - **Output Format:** JSON, Markdown, bullet list, etc.
+  - **Examples:** Few-shot prompting to guide style and accuracy.
+  - **Constraints:** Length limits, language scope, and rules.
+- **Advanced Prompting Techniques:**
+  - **Chain of Thought (CoT):** Guide the AI to reason step-by-step for complex tasks.
+  - **Self-Consistency:** Run multiple reasoning paths and select the majority consensus answer.
+  - **Tree of Thought (ToT):** AI uses BFS/DFS to explore multiple reasoning branches to find the optimal solution.
+- **Token Economics:** Vietnamese costs roughly double the tokens compared to English; API pricing is split between input and output tokens — understanding this is essential for cost management.
+- **Proptimizer Solution Architecture on AWS:**
+  - **Frontend & CDN:** Next.js hosted on Amazon S3, globally distributed via Amazon CloudFront with Origin Access Control (OAC).
+  - **Authentication:** Amazon Cognito manages sign-up, sign-in, password reset, and JWT token issuance — zero custom auth infrastructure needed.
+  - **API & Backend:** Amazon API Gateway routes traffic → AWS Lambda (serverless) handles business logic on-demand.
+  - **AI Core:** Amazon Bedrock provides secure, serverless access to Foundation Models (Claude, GPT) — no server provisioning required.
+  - **Storage:** Amazon DynamoDB (NoSQL) stores prompt history and user configs; Amazon S3 stores static assets.
+  - **Monitoring:** Amazon CloudWatch aggregates Lambda logs and API Gateway metrics for debugging and performance analysis.
+  - **Product Feature:** Proptimizer is a browser extension — highlight any text on any webpage, click the icon, and receive an AI-optimized prompt ready to paste into ChatGPT or Gemini.
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
+#### Foundation Knowledge & the Role of AI for Freshers (Nguyen Duy Khang)
 
-#### Event-Driven Architecture
+Khang — Solutions Architect at Cloud Kinetics with 3 years of industry experience — shared a candid perspective from the hiring side:
 
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
+- **Foundation over breadth:** In a rapidly changing industry, foundational knowledge is the only thing with lasting value. Hiring managers don't need you to know all 200+ AWS services; they need you to truly master 5 core services and demonstrate a solid **thought process**.
+- **AI amplify:** AI doesn't replace developers — it amplifies their existing ability. If you're strong, AI makes you 10x stronger. If you're weak, AI makes your weaknesses more visible, faster.
+- **You can outsource your thinking, but not your understanding:** When an employer changes one small detail in an assignment, candidates who only copied AI output without truly understanding it will immediately fail. Those who understood the fundamentals adapt easily.
+- **No absolute right or wrong in cloud architecture:** What matters is your reasoning — a well-argued rationale for choosing one solution over another is what passes interviews, not memorized answers.
 
-#### Compute Evolution
+#### BMAD Method — Structured AI-Driven Software Development (Thao Nguyen)
 
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
+BMAD (Breakthrough Method for Agile AI-Driven Development) is an open-source framework designed to bring discipline and structure to AI-assisted software development, replacing chaotic "vibe coding":
 
-#### Amazon Q Developer
-
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
+- **Agentic Roles:** Assign specialized AI agents to act as Product Manager, Architect, Developer, QA, and Scrum Master — each responsible for a defined SDLC stage.
+- **Two Core Phases:**
+  - **Phase 1 - Agentic Planning:** Produce complete PRDs (Product Requirements Documents), system architecture blueprints, and user stories *before writing any code*.
+  - **Phase 2 - Context-Engineered Development:** Use the Phase 1 artifacts as grounding context to guide development agents in producing accurate, maintainable, and consistent code.
+- **Practical Benefits:**
+  - Reduces AI hallucination because agents cross-validate each other's outputs.
+  - Produces well-documented codebases that are easy to audit and scale.
+  - Scales from solo side projects to enterprise-level systems.
+  - Installed via CLI (`npx bmad-method install`), compatible with Cursor, Claude Code, and other AI IDEs.
 
 ### Key Takeaways
 
-#### Design Mindset
+#### Study Habits & Personal Development
+- Understood the dopamine mechanism as the foundation for designing a personalized and sustainable self-study system.
+- Planning to apply the "mystery reward box" and daily streak calendar immediately to my AWS self-study roadmap.
 
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
+#### Prompt Engineering & AI Cost Control
+- Mastered the 7-component prompt framework and advanced techniques (CoT, ToT) to extract the highest quality output from LLMs.
+- Learned to calculate token costs when building AI-powered apps on AWS Bedrock to prevent unexpected cloud bills.
 
-#### Technical Architecture
+#### Cloud Architecture Thinking
+- Gained a clear understanding of each component in a full Serverless AWS architecture (S3, CloudFront, Cognito, API Gateway, Lambda, Bedrock, DynamoDB, CloudWatch) and the rationale behind each service selection.
 
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
+#### Professional AI Collaboration
+- Solidified the understanding that AI amplifies capability rather than replacing thinking. Strong foundations are the only durable competitive advantage.
+- Started exploring the BMAD Method to apply to personal projects in a more structured, spec-driven way.
 
-#### Modernization Strategy
+### Work Application
 
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
-
-### Applying to Work
-
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
+- **Improve AI Interaction Quality:** Apply the 7-component prompt framework and Chain-of-Thought technique to daily tasks including writing documentation, code reviews, and test case generation for the AutoRx project.
+- **Build Sustainable Study Habits:** Implement a streak-based learning check-in system with mystery reward boxes to maintain consistent daily AWS learning progress.
+- **Explore BMAD Method:** Experiment with applying BMAD's Phase 1 planning to structure the internship project with clear PRD and architecture documentation before implementation begins.
+- **Cloud Cost Governance:** Actively monitor Bedrock token usage and API Gateway logs to keep AWS Lab spending within acceptable limits.
 
 ### Event Experience
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+This was my first FCAJ Community Day and the experience exceeded expectations:
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
+#### Unique Blend of Soft Skills and Technical Content
+- It was rare and refreshing to open a tech community event with a talk on **learning psychology** rather than purely technical content. Huynh Hoang Long's session resonated deeply with anyone struggling with inconsistent motivation.
 
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
+#### Real-World AWS in Action
+- The live **Proptimizer** demo by Nguyen Tuan Thinh was the highlight — seeing a production browser extension built on a complete Serverless AWS architecture clarified exactly what the internship program's final project should look like.
 
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
+#### Unfiltered Perspective from the Hiring Side
+- Khang's candid breakdown of how he evaluates candidates and assignments changed the way I think about using AI — and reinforced my commitment to truly *understanding* concepts rather than simply *copying outputs*.
 
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
-
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
-
-#### Some event photos
-*Add your event photos here*  
-
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+#### Event Gallery
+<div style="display: flex; justify-content: center; margin-top: 15px;">
+  <img src="/images/event1_1.jpg" alt="Demo slide at the event" style="width: 60%; max-width: 500px; object-fit: contain; border-radius: 8px;" />
+</div>
+> Overall, FCAJ Community Day 09/05 was a high-quality event that equipped me with both technical tools (Prompt Engineering, BMAD, Serverless AWS) and the right mindset (learning habits, foundational knowledge, AI amplification) to grow sustainably in my IT career.

@@ -1,127 +1,61 @@
 ---
 title: "Blog 2"
 date: 2024-01-01
-weight: 1
+weight: 2
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
-
 {{% notice warning %}}
 ⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
 {{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+# Cache dữ liệu giữa các Microservices trong kiến trúc Serverless
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
-
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Các tổ chức đang chuyển dịch các ứng dụng nguyên khối (monolith) truyền thống sang microservices để đạt được sự linh hoạt và khả năng mở rộng. Do mỗi microservice đảm nhận một chức năng duy nhất, chúng thường phải truy xuất và xử lý dữ liệu từ nhiều nguồn khác nhau (kho lưu trữ dữ liệu, hệ thống cũ hoặc cơ sở dữ liệu on-premises). Việc truy vấn trực tiếp theo thời gian thực làm tăng đáng kể độ trễ. Triển khai một lớp đệm (cache) gần với lớp tính toán serverless (AWS Lambda) giúp giảm độ trễ và giảm thiểu việc giao tiếp trực tiếp giữa các microservices.
 
 ---
 
-## Hướng dẫn kiến trúc
+## Kịch bản 1: Caching theo nhu cầu (On-Demand) để giảm các cuộc gọi thời gian thực
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+Trong kịch bản này, mô hình **Cache-Aside (Lazy Loading)** được áp dụng. Dữ liệu chỉ được lưu vào cache khi người dùng yêu cầu và microservice sẽ quyết định xem đối tượng đó có cần lưu lại hay không.
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
+### Quy trình hoạt động thực tế
+1. **Tiếp nhận yêu cầu:** Microservice Hóa đơn (Billing) nhận yêu cầu và kiểm tra cache bằng `object_key`. Nếu dữ liệu tồn tại (cache hit), hệ thống trả kết quả ngay lập tức.
+2. **Xử lý khi Cache Miss:** Nếu dữ liệu chưa có trong cache (cache miss), dịch vụ Billing sẽ gọi trực tiếp đến các nguồn dữ liệu backend, tổng hợp kết quả, trả về cho người dùng và lưu kết quả đó vào cache kèm theo thời gian tồn tại (TTL) xác định.
+3. **Thu hồi Cache (Cache Invalidation):** Khi khách hàng thực hiện thanh toán qua microservice Thanh toán (Payment), số dư cũ trong cache sẽ bị lỗi thời. Dịch vụ Payment sẽ đẩy một sự kiện bất đồng bộ `payment_processed` lên Event Store.
+4. **Cập nhật từ Cache Manager:** Microservice quản lý cache (CacheManager) lắng nghe sự kiện này và thực hiện xóa/cập nhật lại bản ghi tương ứng trong cache.
 
-**Kiến trúc giải pháp bây giờ như sau:**
+<img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2021/07/14/Figure-1.-Reducing-latency-by-caching-frequently-accessed-data-on-demand.png" alt="Figure 1. Reducing latency by caching frequently accessed data on demand" style="max-width:100%; border-radius: 8px; margin: 16px 0;" />
 
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+### Kiến trúc AWS đề xuất
+- **API Gateway:** Cung cấp các endpoint API cho bên ngoài.
+- **AWS Lambda:** Đảm nhiệm xử lý logic nghiệp vụ (lớp tính toán).
+- **Amazon ElastiCache:** Bộ nhớ đệm phân tán trong bộ nhớ (in-memory) có tốc độ cao.
+- **Amazon EventBridge:** Điều phối các sự kiện nghiệp vụ bất đồng bộ.
 
----
-
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
-
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+<img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2021/07/14/Figure-2.-Suggested-AWS-services-for-implementing-use-case-1.png" alt="Figure 2. Suggested AWS services for implementing use case 1" style="max-width:100%; border-radius: 8px; margin: 16px 0;" />
 
 ---
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+## Kịch bản 2: Caching chủ động (Proactive Caching) cho lượng dữ liệu lớn
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Trong quá trình di chuyển và hiện đại hóa hệ thống, một số hệ thống backend cũ (như Mainframe) chạy bằng các tiến trình xử lý theo lô (batch jobs) định kỳ và không thể đáp ứng được tần suất gọi API liên tục từ ứng dụng hiện đại ở frontend. Dữ liệu cần thiết sẽ được xác định trước và tải chủ động vào hệ thống cache.
 
----
+### Quy trình hoạt động thực tế
+1. **Nạp dữ liệu ban đầu & CDC:** Một tiến trình tự động nạp dữ liệu ban đầu vào cache. Các thay đổi tiếp theo ở hệ thống lưu trữ gốc được cập nhật vào cache thông qua một đường dẫn CDC (Change Data Capture) tự động.
+2. **Truy cập trực tiếp từ Cache:** Các microservices đọc dữ liệu trực tiếp từ cache đã được nạp sẵn thay vì gọi thời gian thực xuống backend cũ.
+3. **Cập nhật theo yêu cầu:** Nếu có thay đổi do các giao dịch mới, microservice ghi trực tiếp xuống hệ thống lưu trữ gốc và phát đi sự kiện. Dịch vụ CacheManager sẽ kích hoạt làm mới lại phần dữ liệu bị ảnh hưởng.
 
-## The pub/sub hub
+<img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2021/07/14/Figure-3.-Eliminating-real-time-calls-by-caching-massive-data-volumes-proactively.png" alt="Figure 3. Eliminating real-time calls by caching massive data volumes proactively" style="max-width:100%; border-radius: 8px; margin: 16px 0;" />
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
+### Kiến trúc AWS đề xuất
+- **Amazon DynamoDB:** Cơ sở dữ liệu NoSQL cung cấp khả năng truy xuất với độ trễ thấp ở mọi quy mô.
+- **Amazon DynamoDB Accelerator (DAX):** Bộ nhớ đệm trong bộ nhớ được quản lý hoàn toàn nằm trước DynamoDB, giúp nâng cao hiệu năng đọc lên gấp 10 lần (độ trễ giảm xuống mức micro-giây).
 
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+<img src="https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2021/07/14/Figure-4.-Suggested-AWS-services-for-implementing-use-case-2.png" alt="Figure 4. Suggested AWS services for implementing use case 2" style="max-width:100%; border-radius: 8px; margin: 16px 0;" />
 
 ---
 
-## Core microservice
-
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
-
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
-
----
-
-## Front door microservice
-
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
-
----
-
-## Staging ER7 microservice
-
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
-
----
-
-## Tính năng mới trong giải pháp
-
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+## Các phương pháp tối ưu độ trễ bổ sung cho Lambda
+- **Tái sử dụng môi trường thực thi (Execution Environment Reuse):** Khai báo các cấu hình tĩnh và biến dữ liệu bên ngoài hàm xử lý (handler code) của Lambda để tận dụng lưu lại trạng thái giữa các lần khởi động ấm (warm starts).
+- **AWS Lambda Extensions:** Chạy các tiến trình phụ song song với tiến trình chính của Lambda để quản lý cache, đọc cấu hình hoặc lưu trữ khóa bảo mật.
